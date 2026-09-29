@@ -701,7 +701,7 @@ Add your GitHub screenshots here after uploading them to a repository folder suc
 
 Example:
 
-```markdown
+
 ## 📸 Screenshots
 
 ### Home Page
@@ -710,14 +710,6 @@ Example:
 ![login Page](screenshots/logins.png)
 ### Register Page
 ![register Page](screenshots/registers.png)
-
-
-
-
-
-
-
-
 ### Dashboard
 ![Dashboard](screenshots/dashboard.png)
 
@@ -744,7 +736,7 @@ Example:
 ### AI Assistant Page
 ![AI Assistant Page](screenshots/ai.png)
 
-```
+
 
 ---
 
