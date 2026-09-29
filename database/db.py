@@ -1,10 +1,12 @@
 import mysql.connector
+import os
 
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="Bhavani@123",
-    database="ai_career_platform"
+    host=os.getenv("MYSQL_HOST"),
+    port=int(os.getenv("MYSQL_PORT", "3306")),
+    user=os.getenv("MYSQL_USER"),
+    password=os.getenv("MYSQL_PASSWORD"),
+    database=os.getenv("MYSQL_DB", "ai_career_platform")
 )
 
 cursor = db.cursor()
