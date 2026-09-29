@@ -16,12 +16,12 @@ class Config:
     MAX_CONTENT_LENGTH = 10 * 1024 * 1024
     ALLOWED_EXTENSIONS = {"pdf", "doc", "docx"}
 
-    MYSQL_HOST = "localhost"
-    MYSQL_USER = "root"
-    MYSQL_PASSWORD = "root"
-    MYSQL_DB = "ai_career_platform"
+    MYSQL_HOST = os.getenv("MYSQL_HOST")
+    MYSQL_USER = os.getenv("MYSQL_USER")
+    MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
+    MYSQL_DB = os.getenv("MYSQL_DB", "ai_career_platform")
 
-    DEBUG = True
+    DEBUG = False
     JSON_SORT_KEYS = False
 
     DEFAULT_RESUME_SCORE = 0
