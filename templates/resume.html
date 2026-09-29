@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume Analyzer | AI Career Guidance</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='resume.css') }}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="topbar">
+
+    <div class="brand">
+        <span>AI</span> Career Guidance & Placement Platform
+    </div>
+
+    <div class="user-box">
+
+        <div class="user-icon">
+            <i class="fa-solid fa-user"></i>
+        </div>
+
+        <span>
+            Welcome, {{ fullname if fullname else "Student" }}
+        </span>
+
+    </div>
+
+</header>
+
+
+<!-- ================= BACKGROUND EFFECTS ================= -->
+
+<div class="background-effects">
+
+    <div class="glow glow-one"></div>
+    <div class="glow glow-two"></div>
+
+    <div class="floating-icon icon-one">
+        <i class="fa-solid fa-file-lines"></i>
+    </div>
+
+    <div class="floating-icon icon-two">
+        <i class="fa-solid fa-brain"></i>
+    </div>
+
+    <div class="floating-icon icon-three">
+        <i class="fa-solid fa-chart-line"></i>
+    </div>
+
+    <div class="floating-icon icon-four">
+        <i class="fa-solid fa-robot"></i>
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="resume-container">
+
+
+    <!-- HERO -->
+
+    <section class="hero-section">
+
+        <div class="hero-icon">
+
+            <div class="scanner-ring"></div>
+
+            <i class="fa-solid fa-file-circle-check"></i>
+
+        </div>
+
+
+        <div class="hero-content">
+
+            <div class="ai-badge">
+                <i class="fa-solid fa-sparkles"></i>
+                AI POWERED
+            </div>
+
+            <h1>
+                AI Resume
+                <span>Analyzer</span>
+            </h1>
+
+            <p>
+                Transform your resume into your career advantage.
+                Get AI-powered resume scoring, skill analysis,
+                ATS optimization and placement recommendations.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= UPLOAD CARD ================= -->
+
+    <section class="upload-section">
+
+        <div class="section-heading">
+
+            <div>
+                <span class="small-title">
+                    STEP 01
+                </span>
+
+                <h2>
+                    Upload Your Resume
+                </h2>
+
+                <p>
+                    Let our AI analyze your resume and identify
+                    your strengths, skills and career opportunities.
+                </p>
+            </div>
+
+            <div class="step-number">
+                01
+            </div>
+
+        </div>
+
+
+        <form
+            action="/resume"
+            method="POST"
+            enctype="multipart/form-data"
+            id="resumeForm"
+        >
+
+            <div
+                class="drop-zone"
+                id="dropZone"
+            >
+
+                <input
+                    type="file"
+                    id="resumeFile"
+                    name="resume"
+                    accept=".pdf,.doc,.docx"
+                    hidden
+                >
+
+
+                <div class="upload-animation">
+
+                    <div class="upload-ring ring-one"></div>
+                    <div class="upload-ring ring-two"></div>
+
+                    <div class="file-icon">
+
+                        <i class="fa-solid fa-file-arrow-up"></i>
+
+                    </div>
+
+                </div>
+
+
+                <h3>
+                    Drag & Drop Your Resume
+                </h3>
+
+                <p>
+                    or
+                </p>
+
+
+                <button
+                    type="button"
+                    class="choose-btn"
+                    id="chooseFile"
+                >
+                    <i class="fa-solid fa-folder-open"></i>
+
+                    Choose Resume
+                </button>
+
+
+                <div
+                    class="selected-file"
+                    id="selectedFile"
+                >
+
+                    <i class="fa-solid fa-file-pdf"></i>
+
+                    <span id="fileName">
+                        No file selected
+                    </span>
+
+                </div>
+
+
+                <div class="file-info">
+
+                    <span>
+                        <i class="fa-solid fa-file-pdf"></i>
+                        PDF
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-file-word"></i>
+                        DOC / DOCX
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-weight-hanging"></i>
+                        Max 10 MB
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ANALYZE BUTTON -->
+
+            <button
+                type="submit"
+                class="analyze-btn"
+                id="analyzeBtn"
+            >
+
+                <span class="btn-normal">
+
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                    Analyze My Resume
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </span>
+
+
+                <span class="btn-loading">
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    AI is analyzing your resume...
+
+                </span>
+
+            </button>
+
+        </form>
+
+    </section>
+    <!-- ================= ERROR MESSAGE ================= -->
+
+{% if error %}
+
+<div class="error-message">
+
+    <div class="error-icon">
+        <i class="fa-solid fa-circle-exclamation"></i>
+    </div>
+
+    <div class="error-content">
+
+        <h3>Invalid Resume</h3>
+
+        <p>
+            {{ error }}
+        </p>
+
+    </div>
+
+</div>
+
+{% endif %}
+<!-- ================= ANALYSIS RESULT ================= -->
+
+{% if success or result %}
+
+<section class="analysis-result">
+
+    <div class="result-header">
+
+        <div>
+            <span class="small-title">AI ANALYSIS COMPLETE</span>
+
+            <h2>
+                Your Resume <span>AI Report</span>
+            </h2>
+
+            {% if success %}
+            <p>{{ success }}</p>
+            {% endif %}
+        </div>
+
+        <div class="result-status">
+            <i class="fa-solid fa-circle-check"></i>
+            Analyzed
+        </div>
+
+    </div>
+
+
+    <!-- SCORE -->
+
+    <div class="score-card">
+
+        <div class="score-circle">
+
+            <div class="score-inner">
+
+                <strong>{{ result.score }}</strong>
+
+                <span>/ 100</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="score-content">
+
+            <span class="small-title">
+                RESUME STRENGTH
+            </span>
+
+            <h3>
+                {% if result.score >= 80 %}
+                    Excellent Resume
+                {% elif result.score >= 60 %}
+                    Good Resume
+                {% else %}
+                    Needs Improvement
+                {% endif %}
+            </h3>
+
+            <p>
+                Your resume has been analyzed using
+                AI-based skill detection and placement
+                readiness evaluation.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- SKILL ANALYSIS -->
+
+    <div class="result-grid">
+
+
+        <!-- DETECTED SKILLS -->
+
+        <div class="result-panel detected-panel">
+
+            <div class="panel-title">
+
+                <div class="panel-icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+                <div>
+                    <h3>Detected Skills</h3>
+                    <p>Skills found in your resume</p>
+                </div>
+
+            </div>
+
+
+            <div class="skill-tags">
+
+                {% for skill in result.detected_skills %}
+
+                <span class="skill-tag">
+
+                    <i class="fa-solid fa-check"></i>
+
+                    {{ skill }}
+
+                </span>
+
+                {% else %}
+
+                <p>No skills detected.</p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MISSING SKILLS -->
+
+        <div class="result-panel missing-panel">
+
+            <div class="panel-title">
+
+                <div class="panel-icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+
+                <div>
+                    <h3>Skill Gaps</h3>
+                    <p>Skills recommended for placement</p>
+                </div>
+
+            </div>
+
+
+            <div class="skill-tags">
+
+                {% for skill in result.missing_skills %}
+
+                <span class="skill-tag missing">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    {{ skill }}
+
+                </span>
+
+                {% else %}
+
+                <p>
+                    Great! No major skill gaps detected.
+                </p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- AI SUGGESTIONS -->
+
+    <div class="suggestions-panel">
+
+        <div class="suggestions-heading">
+
+            <div class="panel-icon">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+
+            <div>
+
+                <h3>AI Career Recommendations</h3>
+
+                <p>
+                    Personalized suggestions to improve
+                    your resume and placement chances.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="suggestion-list">
+
+            {% for suggestion in result.suggestions %}
+
+            <div class="suggestion-item">
+
+                <div class="suggestion-number">
+                    {{ loop.index }}
+                </div>
+
+                <div>
+                    {{ suggestion }}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PLACEMENT READINESS -->
+
+    <div class="placement-card">
+
+        <div class="placement-icon">
+
+            <i class="fa-solid fa-briefcase"></i>
+
+        </div>
+
+        <div>
+
+            <span class="small-title">
+                PLACEMENT READINESS
+            </span>
+
+            <h3>
+                Build your skills → Improve your opportunities
+            </h3>
+
+            <p>
+                Use the detected skill gaps to prepare for
+                suitable job roles and improve your placement
+                probability.
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('jobs') }}"
+           class="jobs-btn">
+
+            Explore Jobs
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+    </div>
+
+</section>
+
+{% endif %}
+
+    <!-- ================= AI PROCESS ================= -->
+
+    <section class="process-section">
+
+        <div class="process-heading">
+
+            <span class="small-title">
+                HOW IT WORKS
+            </span>
+
+            <h2>
+                Your Resume Meets AI
+            </h2>
+
+            <p>
+                Our intelligent system analyzes your resume
+                through multiple career-focused stages.
+            </p>
+
+        </div>
+
+
+        <div class="process-grid">
+
+
+            <div class="process-card">
+
+                <div class="process-number">
+                    01
+                </div>
+
+                <div class="process-icon">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+
+                <h3>
+                    Resume Parsing
+                </h3>
+
+                <p>
+                    Extract education, skills, experience,
+                    projects and certifications.
+                </p>
+
+            </div>
+
+
+            <div class="process-line"></div>
+
+
+            <div class="process-card">
+
+                <div class="process-number">
+                    02
+                </div>
+
+                <div class="process-icon">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+
+                <h3>
+                    AI Skill Analysis
+                </h3>
+
+                <p>
+                    Detect technical and professional skills
+                    from your resume.
+                </p>
+
+            </div>
+
+
+            <div class="process-line"></div>
+
+
+            <div class="process-card">
+
+                <div class="process-number">
+                    03
+                </div>
+
+                <div class="process-icon">
+                    <i class="fa-solid fa-chart-simple"></i>
+                </div>
+
+                <h3>
+                    ATS Evaluation
+                </h3>
+
+                <p>
+                    Measure your resume strength and
+                    ATS compatibility.
+                </p>
+
+            </div>
+
+
+            <div class="process-line"></div>
+
+
+            <div class="process-card">
+
+                <div class="process-number">
+                    04
+                </div>
+
+                <div class="process-icon">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+
+                <h3>
+                    Career Matching
+                </h3>
+
+                <p>
+                    Recommend suitable jobs and
+                    career improvement opportunities.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="features-section">
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-gauge-high"></i>
+
+            <div>
+                <h3>
+                    Resume Score
+                </h3>
+
+                <p>
+                    Understand how strong your resume is.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-code"></i>
+
+            <div>
+                <h3>
+                    Skill Detection
+                </h3>
+
+                <p>
+                    Identify technical skills automatically.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-magnifying-glass-chart"></i>
+
+            <div>
+                <h3>
+                    ATS Analysis
+                </h3>
+
+                <p>
+                    Improve your resume for ATS systems.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-briefcase"></i>
+
+            <div>
+                <h3>
+                    Job Matching
+                </h3>
+
+                <p>
+                    Find jobs matching your skills.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<script src="{{ url_for('static', filename='resume.js') }}"></script>
+
+</body>
+</html>
