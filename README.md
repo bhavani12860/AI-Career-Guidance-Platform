@@ -26,6 +26,7 @@ The platform brings together multiple stages of the career journey:
 > **Profile → Resume → Career Recommendation → Skill Gap → Learning Roadmap → Interview Preparation → Job Discovery → Placement Readiness**
 
 Instead of providing only static career information, the application combines user profile data, resume-related analysis, skill matching, learning resources, interview practice, job information, recruiter workflows, and an AI career assistant into a single experience.
+live link:https://ai-career-guidance-platform-1.onrender.com
 
 ---
 
