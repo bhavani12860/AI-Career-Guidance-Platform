@@ -1071,9 +1071,8 @@ footer{
 @media(max-width:600px){
 
 .hero{
-
-    padding:110px 25px;
-
+    min-height:auto;
+    padding:100px 20px 40px;
 }
 
 .hero-left h1{
